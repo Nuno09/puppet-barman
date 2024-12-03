@@ -329,7 +329,7 @@ class barman (
   validate_legacy(Boolean, 'validate_bool', $archiver)
 
   if $archiver_batch_size != undef {
-    validate_integer($archiver_batch_size)
+    validate_legacy(Integer, 'validate_integer', $archiver_batch_size)
   }
 
   if $backup_method != undef {
@@ -337,11 +337,11 @@ class barman (
   }
 
   if $bandwidth_limit != undef {
-    validate_integer($bandwidth_limit)
+    validate_legacy(Integer, 'validate_integer', $bandwidth_limit)
   }
 
   if $check_timeout != undef {
-    validate_integer($check_timeout)
+    validate_legacy(Integer, 'validate_integer', $check_timeout)
   }
 
   if $custom_compression_filter != undef {
@@ -357,7 +357,7 @@ class barman (
   }
 
   if $parallel_jobs != undef {
-    validate_integer($parallel_jobs)
+    validate_legacy(Integer, 'validate_integer', $parallel_jobs)
   }
 
   if $path_prefix != undef {
@@ -371,7 +371,7 @@ class barman (
   validate_legacy(Boolean, 'validate_bool', $streaming_archiver)
 
   if $streaming_archiver_batch_size != undef {
-    validate_integer($streaming_archiver_batch_size)
+    validate_legacy(Integer, 'validate_integer', $streaming_archiver_batch_size)
   }
 
   if $streaming_archiver_name != undef {

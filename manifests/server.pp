@@ -264,16 +264,16 @@ define barman::server (
 
   # check to make sure basebackup_retry_times is a numerical value
   if $basebackup_retry_times != false {
-    validate_integer($basebackup_retry_times, undef, 0)
+    validate_legacy(Integer, 'validate_integer', $basebackup_retry_times, undef, 0)
   }
 
   # check to make sure basebackup_retry_sleep is a numerical value
   if $basebackup_retry_sleep != false {
-    validate_integer($basebackup_retry_sleep, undef, 0)
+    validate_legacy(Integer, 'validate_integer', $basebackup_retry_sleep, undef, 0)
   }
 
   # check if minimum_redundancy is a number
-  validate_integer($minimum_redundancy, undef, 0)
+  validate_legacy(Integer, 'validate_integer', $minimum_redundancy, undef, 0)
 
   # check to make sure last_backup_maximum_age identifies (DAYS | WEEKS | MONTHS) greater then 0
   if $last_backup_maximum_age != false {
@@ -293,7 +293,7 @@ define barman::server (
   validate_legacy(Boolean, 'validate_bool', $archiver)
 
   if $archiver_batch_size != undef {
-    validate_integer($archiver_batch_size)
+    validate_legacy(Integer, 'validate_integer', $archiver_batch_size)
   }
 
   if $backup_method != undef {
@@ -301,11 +301,11 @@ define barman::server (
   }
 
   if $bandwidth_limit != undef {
-    validate_integer($bandwidth_limit)
+    validate_legacy(Integer, 'validate_integer', $bandwidth_limit)
   }
 
   if $check_timeout != undef {
-    validate_integer($check_timeout)
+    validate_legacy(Integer, 'validate_integer', $check_timeout)
   }
 
   if $custom_compression_filter != undef {
@@ -321,7 +321,7 @@ define barman::server (
   }
 
   if $parallel_jobs != undef {
-    validate_integer($parallel_jobs)
+    validate_legacy(Integer, 'validate_integer', $parallel_jobs)
   }
 
   if $path_prefix != undef {
@@ -335,7 +335,7 @@ define barman::server (
   validate_legacy(Boolean, 'validate_bool', $streaming_archiver)
 
   if $streaming_archiver_batch_size != undef {
-    validate_integer($streaming_archiver_batch_size)
+    validate_legacy(Integer, 'validate_integer', $streaming_archiver_batch_size)
   }
 
   if $streaming_archiver_name != undef {
