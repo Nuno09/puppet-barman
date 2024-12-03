@@ -246,21 +246,21 @@ define barman::server (
 ) {
 
   # check if 'description' has been correctly configured
-  validate_re($ensure, '^(present|absent)$', "${ensure} is not a valid value (ensure = present|absent).")
+  validate_legacy(String, 'validate_re', $ensure, '^(present|absent)$', "${ensure} is not a valid value (ensure = present|absent).")
 
   # check if backup_options has correct values
-  validate_re($backup_options, [ '^exclusive_backup$', '^concurrent_backup$', 'Invalid backup option please use exclusive_backup or concurrent_backup' ])
+  validate_legacy(String, 'validate_re', $backup_options, [ '^exclusive_backup$', '^concurrent_backup$', 'Invalid backup option please use exclusive_backup or concurrent_backup' ])
 
   if($recovery_options) {
     # Check if recovery has correct values, if specified
-    validate_re($recovery_options, [ '^get-wal$' ], 'Invalid recovery option. Please use "get-wal" or undef.')
+    validate_legacy(String, 'validate_re', $recovery_options, [ '^get-wal$' ], 'Invalid recovery option. Please use "get-wal" or undef.')
   }
 
   # check if 'description' has been correctly configured
-  validate_re($name, '^[0-9a-z_\-/]*$', "${name} is not a valid name. Please only use lowercase letters, numbers, slashes, underscores and hyphens.")
+  validate_legacy(String, 'validate_re', $name, '^[0-9a-z_\-/]*$', "${name} is not a valid name. Please only use lowercase letters, numbers, slashes, underscores and hyphens.")
 
   # check if immediate checkpoint is a boolean
-  validate_bool($immediate_checkpoint)
+  validate_legacy(Boolean, 'validate_bool', $immediate_checkpoint)
 
   # check to make sure basebackup_retry_times is a numerical value
   if $basebackup_retry_times != false {
@@ -277,27 +277,27 @@ define barman::server (
 
   # check to make sure last_backup_maximum_age identifies (DAYS | WEEKS | MONTHS) greater then 0
   if $last_backup_maximum_age != false {
-    validate_re($last_backup_maximum_age, [ '^[1-9][0-9]* (DAY|WEEK|MONTH)S?$' ])
+    validate_legacy(String, 'validate_re', $last_backup_maximum_age, [ '^[1-9][0-9]* (DAY|WEEK|MONTH)S?$' ])
   }
 
   # check to make sure retention_policy has correct value
-  validate_re($retention_policy, [ '^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$' ])
+  validate_legacy(String, 'validate_re', $retention_policy, [ '^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$' ])
 
   # check to make sure retention_policy_mode is set to auto
-  validate_re($retention_policy_mode, [ '^auto$' ])
+  validate_legacy(String, 'validate_re', $retention_policy_mode, [ '^auto$' ])
 
   # check to make sure wal_retention_policy is set to main
-  validate_re($wal_retention_policy, [ '^main$' ])
+  validate_legacy(String, 'validate_re', $wal_retention_policy, [ '^main$' ])
 
-  validate_bool($active)
-  validate_bool($archiver)
+  validate_legacy(Boolean, 'validate_bool', $active)
+  validate_legacy(Boolean, 'validate_bool', $archiver)
 
   if $archiver_batch_size != undef {
     validate_integer($archiver_batch_size)
   }
 
   if $backup_method != undef {
-    validate_re($backup_method, '^(rsync|postgres)$')
+    validate_legacy(String, 'validate_re', $backup_method, '^(rsync|postgres)$')
   }
 
   if $bandwidth_limit != undef {
@@ -309,15 +309,15 @@ define barman::server (
   }
 
   if $custom_compression_filter != undef {
-    validate_string($custom_compression_filter)
+    validate_legacy(String, 'validate_string', $custom_compression_filter)
   }
 
   if $custom_decompression_filter != undef {
-    validate_string($custom_decompression_filter)
+    validate_legacy(String, 'validate_string', $custom_decompression_filter)
   }
 
   if $network_compression != undef {
-    validate_bool($network_compression)
+    validate_legacy(Boolean, 'validate_bool', $network_compression)
   }
 
   if $parallel_jobs != undef {
@@ -329,30 +329,30 @@ define barman::server (
   }
 
   if $slot_name != undef {
-    validate_string($slot_name)
+    validate_legacy(String, 'validate_string', $slot_name)
   }
 
-  validate_bool($streaming_archiver)
+  validate_legacy(Boolean, 'validate_bool', $streaming_archiver)
 
   if $streaming_archiver_batch_size != undef {
     validate_integer($streaming_archiver_batch_size)
   }
 
   if $streaming_archiver_name != undef {
-    validate_string($streaming_archiver_name)
+    validate_legacy(String, 'validate_string', $streaming_archiver_name)
   }
 
   if $streaming_backup_name != undef {
-    validate_string($streaming_backup_name)
+    validate_legacy(String, 'validate_string', $streaming_backup_name)
   }
 
   if $tablespace_bandwidth_limit != undef {
-    validate_string($tablespace_bandwidth_limit)
+    validate_legacy(String, 'validate_string', $tablespace_bandwidth_limit)
   }
 
   # check to make sure reuse_backup has correct value
   if $reuse_backup != false {
-    validate_re($reuse_backup, [ '^(off|link|copy)$' ])
+    validate_legacy(String, 'validate_re', $reuse_backup, [ '^(off|link|copy)$' ])
   }
 
   if $custom_lines != '' {
