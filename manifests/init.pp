@@ -290,7 +290,7 @@ class barman (
   validate_legacy(Boolean, 'validate_bool', $autoconfigure)
 
   # Check if minimum_redundancy is a number
-  validate_legacy(String, 'validate_re', $minimum_redundancy, [ '^[0-9]+$' ])
+  validate_legacy(Integer, 'validate_re', $minimum_redundancy, [ '^[0-9]+$' ])
 
   # Check if backup_options has correct values
   validate_legacy(String, 'validate_re', $backup_options, [ '^exclusive_backup$', '^concurrent_backup$'], 'Invalid backup option please use exclusive_backup or concurrent_backup')
