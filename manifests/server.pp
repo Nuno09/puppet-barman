@@ -199,61 +199,60 @@ define barman::server (
   $ensure                        = 'present',
   $conf_template                 = 'barman/server.conf.erb',
   $description                   = $name,
-  $archiver                      = $::barman::archiver,
-  $archiver_batch_size           = $::barman::archiver_batch_size,
+  $archiver                      = $barman::archiver,
+  $archiver_batch_size           = $barman::archiver_batch_size,
   $backup_directory              = undef,
-  $backup_method                 = $::barman::backup_method,
-  $backup_options                = $::barman::backup_options,
-  $bandwidth_limit               = $::barman::bandwidth_limit,
+  $backup_method                 = $barman::backup_method,
+  $backup_options                = $barman::backup_options,
+  $bandwidth_limit               = $barman::bandwidth_limit,
   $basebackups_directory         = undef,
-  $basebackup_retry_sleep        = $::barman::basebackup_retry_sleep,
-  $basebackup_retry_times        = $::barman::basebackup_retry_times,
-  $check_timeout                 = $::barman::check_timeout,
-  $compression                   = $::barman::compression,
-  $custom_compression_filter     = $::barman::custom_compression_filter,
-  $custom_decompression_filter   = $::barman::custom_decompression_filter,
+  $basebackup_retry_sleep        = $barman::basebackup_retry_sleep,
+  $basebackup_retry_times        = $barman::basebackup_retry_times,
+  $check_timeout                 = $barman::check_timeout,
+  $compression                   = $barman::compression,
+  $custom_compression_filter     = $barman::custom_compression_filter,
+  $custom_decompression_filter   = $barman::custom_decompression_filter,
   $errors_directory              = undef,
-  $immediate_checkpoint          = $::barman::immediate_checkpoint,
+  $immediate_checkpoint          = $barman::immediate_checkpoint,
   $incoming_wals_directory       = undef,
-  $last_backup_maximum_age       = $::barman::last_backup_maximum_age,
-  $minimum_redundancy            = $::barman::minimum_redundancy,
-  $network_compression           = $::barman::network_compression,
-  $parallel_jobs                 = $::barman::parallel_jobs,
-  $path_prefix                   = $::barman::path_prefix,
-  $post_archive_retry_script     = $::barman::post_archive_retry_script,
-  $post_archive_script           = $::barman::post_archive_script,
-  $post_backup_retry_script      = $::barman::post_backup_retry_script,
-  $post_backup_script            = $::barman::post_backup_script,
-  $pre_archive_retry_script      = $::barman::pre_archive_retry_script,
-  $pre_archive_script            = $::barman::pre_archive_script,
-  $pre_backup_retry_script       = $::barman::pre_backup_retry_script,
-  $pre_backup_script             = $::barman::pre_backup_script,
-  $recovery_options              = $::barman::recovery_options,
-  $retention_policy              = $::barman::retention_policy,
-  $retention_policy_mode         = $::barman::retention_policy_mode,
-  $reuse_backup                  = $::barman::reuse_backup,
-  $slot_name                     = $::barman::slot_name,
-  $streaming_archiver            = $::barman::streaming_archiver,
-  $streaming_archiver_batch_size = $::barman::streaming_archiver_batch_size,
-  $streaming_archiver_name       = $::barman::streaming_archiver_name,
-  $streaming_backup_name         = $::barman::streaming_backup_name,
+  $last_backup_maximum_age       = $barman::last_backup_maximum_age,
+  $minimum_redundancy            = $barman::minimum_redundancy,
+  $network_compression           = $barman::network_compression,
+  $parallel_jobs                 = $barman::parallel_jobs,
+  $path_prefix                   = $barman::path_prefix,
+  $post_archive_retry_script     = $barman::post_archive_retry_script,
+  $post_archive_script           = $barman::post_archive_script,
+  $post_backup_retry_script      = $barman::post_backup_retry_script,
+  $post_backup_script            = $barman::post_backup_script,
+  $pre_archive_retry_script      = $barman::pre_archive_retry_script,
+  $pre_archive_script            = $barman::pre_archive_script,
+  $pre_backup_retry_script       = $barman::pre_backup_retry_script,
+  $pre_backup_script             = $barman::pre_backup_script,
+  $recovery_options              = $barman::recovery_options,
+  $retention_policy              = $barman::retention_policy,
+  $retention_policy_mode         = $barman::retention_policy_mode,
+  $reuse_backup                  = $barman::reuse_backup,
+  $slot_name                     = $barman::slot_name,
+  $streaming_archiver            = $barman::streaming_archiver,
+  $streaming_archiver_batch_size = $barman::streaming_archiver_batch_size,
+  $streaming_archiver_name       = $barman::streaming_archiver_name,
+  $streaming_backup_name         = $barman::streaming_backup_name,
   $streaming_conninfo            = undef,
   $streaming_wals_directory      = undef,
-  $tablespace_bandwidth_limit    = $::barman::tablespace_bandwidth_limit,
-  $wal_retention_policy          = $::barman::wal_retention_policy,
+  $tablespace_bandwidth_limit    = $barman::tablespace_bandwidth_limit,
+  $wal_retention_policy          = $barman::wal_retention_policy,
   $wals_directory                = undef,
-  $custom_lines                  = $::barman::custom_lines,
+  $custom_lines                  = $barman::custom_lines,
 ) {
-
   # check if 'description' has been correctly configured
   validate_legacy(String, 'validate_re', $ensure, '^(present|absent)$', "${ensure} is not a valid value (ensure = present|absent).")
 
   # check if backup_options has correct values
-  validate_legacy(String, 'validate_re', $backup_options, [ '^exclusive_backup$', '^concurrent_backup$', 'Invalid backup option please use exclusive_backup or concurrent_backup' ])
+  validate_legacy(String, 'validate_re', $backup_options, ['^exclusive_backup$', '^concurrent_backup$', 'Invalid backup option please use exclusive_backup or concurrent_backup'])
 
   if($recovery_options) {
     # Check if recovery has correct values, if specified
-    validate_legacy(String, 'validate_re', $recovery_options, [ '^get-wal$' ], 'Invalid recovery option. Please use "get-wal" or undef.')
+    validate_legacy(String, 'validate_re', $recovery_options, ['^get-wal$'], 'Invalid recovery option. Please use "get-wal" or undef.')
   }
 
   # check if 'description' has been correctly configured
@@ -277,17 +276,17 @@ define barman::server (
 
   # check to make sure last_backup_maximum_age identifies (DAYS | WEEKS | MONTHS) greater then 0
   if $last_backup_maximum_age != false {
-    validate_legacy(String, 'validate_re', $last_backup_maximum_age, [ '^[1-9][0-9]* (DAY|WEEK|MONTH)S?$' ])
+    validate_legacy(String, 'validate_re', $last_backup_maximum_age, ['^[1-9][0-9]* (DAY|WEEK|MONTH)S?$'])
   }
 
   # check to make sure retention_policy has correct value
-  validate_legacy(String, 'validate_re', $retention_policy, [ '^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$' ])
+  validate_legacy(String, 'validate_re', $retention_policy, ['^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$'])
 
   # check to make sure retention_policy_mode is set to auto
-  validate_legacy(String, 'validate_re', $retention_policy_mode, [ '^auto$' ])
+  validate_legacy(String, 'validate_re', $retention_policy_mode, ['^auto$'])
 
   # check to make sure wal_retention_policy is set to main
-  validate_legacy(String, 'validate_re', $wal_retention_policy, [ '^main$' ])
+  validate_legacy(String, 'validate_re', $wal_retention_policy, ['^main$'])
 
   validate_legacy(Boolean, 'validate_bool', $active)
   validate_legacy(Boolean, 'validate_bool', $archiver)
@@ -352,7 +351,7 @@ define barman::server (
 
   # check to make sure reuse_backup has correct value
   if $reuse_backup != false {
-    validate_legacy(String, 'validate_re', $reuse_backup, [ '^(off|link|copy)$' ])
+    validate_legacy(String, 'validate_re', $reuse_backup, ['^(off|link|copy)$'])
   }
 
   if $custom_lines != '' {
@@ -363,7 +362,7 @@ define barman::server (
     ensure  => $ensure,
     mode    => '0640',
     owner   => 'root',
-    group   => $::barman::settings::group,
+    group   => $barman::settings::group,
     content => template($conf_template),
   }
 
@@ -372,13 +371,13 @@ define barman::server (
     command     => "barman check ${name} || true",
     provider    => shell,
     subscribe   => File["/etc/barman.conf.d/${name}.conf"],
-    refreshonly => true
+    refreshonly => true,
   }
   if($barman::autoconfigure) {
     # export configuration for the pg_hba.conf
     if ($streaming_archiver or $backup_method == 'postgres') {
-      @@postgresql::server::pg_hba_rule { "barman ${::hostname}->${name} client access (replication)":
-        description => "barman ${::hostname}->${name} client access",
+      @@postgresql::server::pg_hba_rule { "barman ${facts['networking']['hostname']}->${name} client access (replication)":
+        description => "barman ${facts['networking']['hostname']}->${name} client access",
         type        => 'host',
         database    => 'replication',
         user        => $barman::settings::dbuser,
@@ -387,8 +386,8 @@ define barman::server (
         tag         => "barman-${barman::host_group}",
       }
     }
-    @@postgresql::server::pg_hba_rule { "barman ${::hostname}->${name} client access":
-      description => "barman ${::hostname}->${name} client access",
+    @@postgresql::server::pg_hba_rule { "barman ${facts['networking']['hostname']}->${name} client access":
+      description => "barman ${facts['networking']['hostname']}->${name} client access",
       type        => 'host',
       database    => $barman::settings::dbname,
       user        => $barman::settings::dbuser,
@@ -397,5 +396,4 @@ define barman::server (
       tag         => "barman-${barman::host_group}",
     }
   }
-
 }

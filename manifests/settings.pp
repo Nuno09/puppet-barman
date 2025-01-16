@@ -91,6 +91,4 @@ class barman::settings (
   $manage_package_repo           = false,
   $manage_ssh_host_keys          = false,
   $purge_unknown_conf            = false,
-) {
-
-}
+) {}

@@ -224,71 +224,70 @@
 # Copyright 2012-2017 2ndQuadrant Italia
 #
 class barman::postgres (
-  $host_group                    = $::barman::settings::host_group,
+  $host_group                    = $barman::settings::host_group,
   $wal_level                     = 'archive',
-  $barman_user                   = $::barman::settings::user,
-  $barman_dbuser                 = $::barman::settings::dbuser,
-  $barman_dbname                 = $::barman::settings::dbname,
-  $barman_home                   = $::barman::settings::home,
+  $barman_user                   = $barman::settings::user,
+  $barman_dbuser                 = $barman::settings::dbuser,
+  $barman_dbname                 = $barman::settings::dbname,
+  $barman_home                   = $barman::settings::home,
   $backup_mday                   = undef,
   $backup_wday                   = undef,
   $backup_hour                   = 4,
   $backup_minute                 = 0,
   $password                      = '',
-  $server_address                = $::fqdn,
+  $server_address                = $facts['networking']['fqdn'],
   $server_port                   = 5432,
-  $postgres_server_id            = $::hostname,
+  $postgres_server_id            = $facts['networking']['hostname'],
   $postgres_user                 = 'postgres',
   $ensure                        = 'present',
   $conf_template                 = 'barman/server.conf.erb',
   $description                   = $name,
-  $archiver                      = $::barman::archiver,
-  $archiver_batch_size           = $::barman::archiver_batch_size,
+  $archiver                      = $barman::archiver,
+  $archiver_batch_size           = $barman::archiver_batch_size,
   $backup_directory              = undef,
-  $backup_method                 = $::barman::backup_method,
-  $backup_options                = $::barman::backup_options,
-  $bandwidth_limit               = $::barman::bandwidth_limit,
+  $backup_method                 = $barman::backup_method,
+  $backup_options                = $barman::backup_options,
+  $bandwidth_limit               = $barman::bandwidth_limit,
   $basebackups_directory         = undef,
-  $basebackup_retry_sleep        = $::barman::basebackup_retry_sleep,
-  $basebackup_retry_times        = $::barman::basebackup_retry_times,
-  $check_timeout                 = $::barman::check_timeout,
-  $compression                   = $::barman::compression,
-  $custom_compression_filter     = $::barman::custom_compression_filter,
-  $custom_decompression_filter   = $::barman::custom_decompression_filter,
+  $basebackup_retry_sleep        = $barman::basebackup_retry_sleep,
+  $basebackup_retry_times        = $barman::basebackup_retry_times,
+  $check_timeout                 = $barman::check_timeout,
+  $compression                   = $barman::compression,
+  $custom_compression_filter     = $barman::custom_compression_filter,
+  $custom_decompression_filter   = $barman::custom_decompression_filter,
   $errors_directory              = undef,
-  $immediate_checkpoint          = $::barman::immediate_checkpoint,
+  $immediate_checkpoint          = $barman::immediate_checkpoint,
   $incoming_wals_directory       = undef,
-  $last_backup_maximum_age       = $::barman::last_backup_maximum_age,
-  $minimum_redundancy            = $::barman::minimum_redundancy,
-  $manage_ssh_host_keys          = $::barman::manage_ssh_host_keys,
-  $network_compression           = $::barman::network_compression,
-  $parallel_jobs                 = $::barman::parallel_jobs,
-  $path_prefix                   = $::barman::path_prefix,
-  $post_archive_retry_script     = $::barman::post_archive_retry_script,
-  $post_archive_script           = $::barman::post_archive_script,
-  $post_backup_retry_script      = $::barman::post_backup_retry_script,
-  $post_backup_script            = $::barman::post_backup_script,
-  $pre_archive_retry_script      = $::barman::pre_archive_retry_script,
-  $pre_archive_script            = $::barman::pre_archive_script,
-  $pre_backup_retry_script       = $::barman::pre_backup_retry_script,
-  $pre_backup_script             = $::barman::pre_backup_script,
-  $recovery_options              = $::barman::settings::recovery_options,
-  $retention_policy              = $::barman::retention_policy,
-  $retention_policy_mode         = $::barman::retention_policy_mode,
-  $reuse_backup                  = $::barman::reuse_backup,
-  $slot_name                     = $::barman::slot_name,
-  $streaming_archiver            = $::barman::streaming_archiver,
-  $streaming_archiver_batch_size = $::barman::streaming_archiver_batch_size,
-  $streaming_archiver_name       = $::barman::streaming_archiver_name,
-  $streaming_backup_name         = $::barman::streaming_backup_name,
+  $last_backup_maximum_age       = $barman::last_backup_maximum_age,
+  $minimum_redundancy            = $barman::minimum_redundancy,
+  $manage_ssh_host_keys          = $barman::manage_ssh_host_keys,
+  $network_compression           = $barman::network_compression,
+  $parallel_jobs                 = $barman::parallel_jobs,
+  $path_prefix                   = $barman::path_prefix,
+  $post_archive_retry_script     = $barman::post_archive_retry_script,
+  $post_archive_script           = $barman::post_archive_script,
+  $post_backup_retry_script      = $barman::post_backup_retry_script,
+  $post_backup_script            = $barman::post_backup_script,
+  $pre_archive_retry_script      = $barman::pre_archive_retry_script,
+  $pre_archive_script            = $barman::pre_archive_script,
+  $pre_backup_retry_script       = $barman::pre_backup_retry_script,
+  $pre_backup_script             = $barman::pre_backup_script,
+  $recovery_options              = $barman::settings::recovery_options,
+  $retention_policy              = $barman::retention_policy,
+  $retention_policy_mode         = $barman::retention_policy_mode,
+  $reuse_backup                  = $barman::reuse_backup,
+  $slot_name                     = $barman::slot_name,
+  $streaming_archiver            = $barman::streaming_archiver,
+  $streaming_archiver_batch_size = $barman::streaming_archiver_batch_size,
+  $streaming_archiver_name       = $barman::streaming_archiver_name,
+  $streaming_backup_name         = $barman::streaming_backup_name,
   $streaming_conninfo            = undef,
   $streaming_wals_directory      = undef,
-  $tablespace_bandwidth_limit    = $::barman::tablespace_bandwidth_limit,
-  $wal_retention_policy          = $::barman::wal_retention_policy,
+  $tablespace_bandwidth_limit    = $barman::tablespace_bandwidth_limit,
+  $wal_retention_policy          = $barman::wal_retention_policy,
   $wals_directory                = undef,
-  $custom_lines                  = $::barman::custom_lines,
-) inherits ::barman::settings {
-
+  $custom_lines                  = $barman::custom_lines,
+) inherits barman::settings {
   if !defined(Class['postgresql::server']) {
     fail('barman::server requires the postgresql::server module installed and configured')
   }
@@ -369,8 +368,8 @@ class barman::postgres (
     custom_lines                  => $custom_lines,
   }
 
-  @@cron { "barman_backup_${::hostname}":
-    command  => "[ -x /usr/bin/barman ] && /usr/bin/barman -q backup ${::hostname}",
+  @@cron { "barman_backup_${facts['networking']['hostname']}":
+    command  => "[ -x /usr/bin/barman ] && /usr/bin/barman -q backup ${facts['networking']['hostname']}",
     user     => 'root',
     monthday => $backup_mday,
     weekday  => $backup_wday,
@@ -380,13 +379,13 @@ class barman::postgres (
   }
 
   # Fill the .pgpass file
-  @@file_line { "barman_pgpass_content-${::hostname}":
+  @@file_line { "barman_pgpass_content-${facts['networking']['hostname']}":
     path => "${barman_home}/.pgpass",
     line => "${server_address}:${server_port}:${barman_dbname}:${barman_dbuser}:${real_password}",
     tag  => "barman-${host_group}",
   }
   if $streaming_archiver {
-    @@file_line { "barman_pgpass_content-${::hostname}-replication":
+    @@file_line { "barman_pgpass_content-${facts['networking']['hostname']}-replication":
       path => "${barman_home}/.pgpass",
       line => "${server_address}:${server_port}:replication:${barman_dbuser}:${real_password}",
       tag  => "barman-${host_group}",
@@ -394,10 +393,10 @@ class barman::postgres (
   }
 
   if $manage_ssh_host_keys {
-    @@sshkey { "postgres-${::hostname}":
+    @@sshkey { "postgres-${facts['networking']['hostname']}":
       ensure       => present,
-      host_aliases => [$::hostname, $::fqdn, $::ipaddress],
-      key          => $::sshecdsakey,
+      host_aliases => [$facts['networking']['hostname'], $facts['networking']['fqdn'], $facts['networking']['ip']],
+      key          => $facts['facts']['ssh']['ecdsa']['key'],
       type         => 'ecdsa-sha2-nistp256',
       target       => "${barman_home}/.ssh/known_hosts",
       tag          => "barman-${host_group}-postgresql",
@@ -408,9 +407,9 @@ class barman::postgres (
   if $archiver {
     # If barman archiver is enabled, export the ssh key of postgres user
     # into barman and set the archive command
-    if ($::postgres_key != undef and $::postgres_key != '') {
-      $postgres_key_split = split($::postgres_key, ' ')
-      @@ssh_authorized_key { "postgres-${::hostname}":
+    if ($facts['postgres_key'] != undef and $facts['postgres_key'] != '') {
+      $postgres_key_split = split($facts['postgres_key'], ' ')
+      @@ssh_authorized_key { "postgres-${facts['networking']['hostname']}":
         ensure => present,
         user   => $barman_user,
         type   => $postgres_key_split[0],
@@ -421,6 +420,5 @@ class barman::postgres (
     Barman::Archive_command <<| tag == "barman-${host_group}" |>> {
       postgres_server_id => $postgres_server_id,
     }
-
   }
 }

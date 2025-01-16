@@ -1,29 +1,35 @@
-# Ruby
-.rvmrc
-.rbenv-version
-.rbenv-gemsets
-
-# Bundler
-.bundle/
-
-# Emacs
-*~
-\#*\#
-.\#*
-
-# SublimeText
-*.sublime-workspace
-
-# Vim
-.*.s[a-w][a-z]
-
-# OS X
+.git/
+.*.sw[op]
+.metadata
+.yardoc
+.yardwarns
+*.iml
+/.bundle/
+/.idea/
+/.vagrant/
+/coverage/
+/bin/
+/doc/
+/Gemfile.local
+/Gemfile.lock
+/junit/
+/log/
+/pkg/
+/spec/fixtures/manifests/
+/spec/fixtures/modules/*
+/tmp/
+/vendor/
+/.vendor/
+/convert_report.txt
+/update_report.txt
 .DS_Store
-Icon
-._*
-
-# This is a library, so don't pin
-Gemfile.lock
-
-# rspec
-spec/fixtures
+.project
+.envrc
+/inventory.yaml
+/spec/fixtures/litmus_inventory.yaml
+.resource_types
+.modules
+.task_cache.json
+.plan_cache.json
+.rerun.json
+bolt-debug.log

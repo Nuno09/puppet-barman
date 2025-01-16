@@ -36,15 +36,14 @@
 # Copyright 2012-2017 2ndQuadrant Italia
 #
 class barman::autoconfigure (
-  $host_group         = $::barman::settings::host_group,
-  $exported_ipaddress = "${::ipaddress}/32",
+  $host_group         = $barman::settings::host_group,
+  $exported_ipaddress = "${facts['networking']['ip']}/32",
 ) {
-
   # create the (empty) .pgpass file
-  file { "${::barman::settings::home}/.pgpass":
+  file { "${barman::settings::home}/.pgpass":
     ensure  => 'file',
-    owner   => $::barman::settings::user,
-    group   => $::barman::settings::group,
+    owner   => $barman::settings::user,
+    group   => $barman::settings::group,
     mode    => '0600',
     require => Class['barman'],
   }
@@ -69,7 +68,7 @@ class barman::autoconfigure (
     require => Class['barman'],
   }
 
-  if $::barman::manage_ssh_host_keys {
+  if $barman::manage_ssh_host_keys {
     Sshkey <<| tag == "barman-${host_group}-postgresql" |>> {
       require => Class['barman'],
     }
@@ -77,16 +76,16 @@ class barman::autoconfigure (
   ############## Export resources to Postgres Servers
 
   # export the archive command
-  @@barman::archive_command { $::barman::barman_fqdn :
+  @@barman::archive_command { $barman::barman_fqdn :
     tag         => "barman-${host_group}",
     barman_home => $barman::home,
   }
 
-  if $::barman::manage_ssh_host_keys {
-    @@sshkey { "barman-${::fqdn}":
+  if $barman::manage_ssh_host_keys {
+    @@sshkey { "barman-${facts['networking']['fqdn']}":
       ensure       => present,
-      host_aliases => [$::hostname, $::fqdn, $::ipaddress],
-      key          => $::sshecdsakey,
+      host_aliases => [$facts['networking']['hostname'], $facts['networking']['fqdn'], $facts['networking']['ip']],
+      key          => $facts['facts']['ssh']['ecdsa']['key'],
       type         => 'ecdsa-sha2-nistp256',
       target       => '/var/lib/postgresql/.ssh/known_hosts',
       tag          => "barman-${host_group}",
@@ -94,8 +93,8 @@ class barman::autoconfigure (
   }
 
   # export the 'barman' SSH key - create if not present
-  if ($::barman_key != undef and $::barman_key != '') {
-    $barman_key_splitted = split($::barman_key, ' ')
+  if ($facts['barman_key'] != undef and $facts['barman_key'] != '') {
+    $barman_key_splitted = split($facts['barman_key'], ' ')
     @@ssh_authorized_key { $barman::settings::user:
       ensure => present,
       user   => 'postgres',
@@ -104,5 +103,4 @@ class barman::autoconfigure (
       tag    => "barman-${host_group}",
     }
   }
-
 }

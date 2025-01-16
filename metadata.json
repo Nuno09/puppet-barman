@@ -7,9 +7,29 @@
   "source": "git://github.com/2ndquadrant-it/puppet-barman.git",
   "project_page": "http://github.com/2ndquadrant-it/puppet-barman",
   "issues_url": "https://github.com/2ndquadrant-it/puppet-barman/issues",
-  "description": "Automates Barman installation and server setup",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">=4.6.0 <5.0.0"},
-    {"name":"puppetlabs/postgresql","version_requirement":">=5.0.0 <6.0.0"}
-  ]
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=4.6.0 <5.0.0"
+    },
+    {
+      "name": "puppetlabs/postgresql",
+      "version_requirement": ">=5.0.0 <6.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    "RedHat based Linux",
+    "Debian based Linux",
+    "Windows"
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 7.24 < 9.0.0"
+    }
+  ],
+  "description": "Automates Barman installation and server setup",
+  "pdk-version": "3.4.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
+  "template-ref": "tags/3.4.0.2-0-gd5f5ac1"
 }

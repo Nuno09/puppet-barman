@@ -33,12 +33,11 @@
 #
 define barman::archive_command (
   $postgres_server_id  = 'default',
-  $barman_user         = $::barman::settings::user,
+  $barman_user         = $barman::settings::user,
   $barman_server       = $title,
   $barman_home         = $barman::settings::home,
   $barman_incoming_dir = '',
 ) {
-
   # Ensure that 'postgres' class correctly configure the 'archive_command'
   if $postgres_server_id == 'default'
   and $barman_incoming_dir == '' {

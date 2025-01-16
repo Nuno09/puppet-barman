@@ -1,19 +1,18 @@
-require 'rubygems'
+# frozen_string_literal: true
 
-require 'bundler/setup'
-Bundler.require :default
-
+require 'bundler'
+require 'puppet_litmus/rake_tasks' if Gem.loaded_specs.key? 'puppet_litmus'
 require 'puppetlabs_spec_helper/rake_tasks'
+require 'puppet-syntax/tasks/puppet-syntax'
+require 'puppet-strings/tasks' if Gem.loaded_specs.key? 'puppet-strings'
 
-require 'puppet-lint/tasks/puppet-lint'
+PuppetLint.configuration.send('disable_relative')
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_140chars')
+PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.send('disable_autoloader_layout')
+PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
+PuppetLint.configuration.fail_on_warnings = true
+PuppetLint.configuration.ignore_paths = [".vendor/**/*.pp", ".bundle/**/*.pp", "pkg/**/*.pp", "spec/**/*.pp", "tests/**/*.pp", "types/**/*.pp", "vendor/**/*.pp"]
 
-# Workaround for https://github.com/rodjek/puppet-lint/issues/331
-Rake::Task[:lint].clear
-PuppetLint::RakeTask.new :lint do |config|
-  config.disable_checks = ["80chars", "140chars"]
-  config.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp", "vendor/**"]
-  config.fail_on_warnings = true
-  # Workaround for missing "relative" accessor
-  #config.relative = true
-  PuppetLint.configuration.relative = true
-end
