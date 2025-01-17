@@ -62,7 +62,7 @@ class barman::settings (
   Variant[Pattern['^[1-9][0-9]* (DAY|WEEK|MONTH)S?$','^false$'], Boolean] $last_backup_maximum_age             = false,
   Stdlib::Absolutepath $logfile                                                                                = '/var/log/barman/barman.log',
   Variant[String, Undef] $log_level                                                                             = undef,
-  Pattern['^[0-9]+$'] $minimum_redundancy                                                                      = '0',
+  Integer $minimum_redundancy                                                                                   = 0,
   Variant[Boolean, Undef] $network_compression                                                                 = undef,
   Variant[Integer, Undef] $parallel_jobs                                                                       = undef,
   Variant[Stdlib::Absolutepath, Undef] $path_prefix                                                            = undef,

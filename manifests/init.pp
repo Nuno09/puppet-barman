@@ -251,7 +251,7 @@ class barman (
   Variant[String, Undef] $log_level                                                                            = $barman::settings::log_level,
   Boolean $manage_package_repo                                                                                 = $barman::settings::manage_package_repo,
   Boolean$manage_ssh_host_keys                                                                                 = $barman::settings::manage_ssh_host_keys,
-  Pattern['^[0-9]+$'] $minimum_redundancy                                                                      = $barman::settings::minimum_redundancy,
+  Integer $minimum_redundancy                                                                                  = $barman::settings::minimum_redundancy,
   Variant[Boolean, Undef] $network_compression                                                                 = $barman::settings::network_compression,
   Variant[Integer, Undef] $parallel_jobs                                                                       = $barman::settings::parallel_jobs,
   Variant[Stdlib::Absolutepath, Undef] $path_prefix                                                            = $barman::settings::path_prefix,
