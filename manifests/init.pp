@@ -235,7 +235,7 @@ class barman (
   Boolean $autoconfigure                                                                                       = $barman::settings::autoconfigure,
   Variant[Pattern['^(rsync|postgres)$'], Undef] $backup_method                                                 = $barman::settings::backup_method,
   Pattern['^exclusive_backup$', '^concurrent_backup$'] $backup_options                                         = $barman::settings::backup_options,
-  Integer $bandwidth_limit                                                                                     = $barman::settings::bandwidth_limit,
+  Variant[Integer, Undef] $bandwidth_limit                                                                     = $barman::settings::bandwidth_limit,
   Variant[Pattern['^[0-9]+$'], Boolean] $basebackup_retry_sleep                                                = $barman::settings::basebackup_retry_sleep,
   Variant[Pattern['^[0-9]+$'], Boolean] $basebackup_retry_times                                                = $barman::settings::basebackup_retry_times,
   Variant[Integer, Undef] $check_timeout                                                                       = $barman::settings::check_timeout,

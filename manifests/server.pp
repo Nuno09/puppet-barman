@@ -204,7 +204,7 @@ define barman::server (
   Variant[String, Undef] $backup_directory                                                                     = undef,
   Variant[Pattern['^(rsync|postgres)$'], Undef] $backup_method                                                 = $barman::backup_method,
   Pattern['^exclusive_backup$', '^concurrent_backup$'] $backup_options                                         = $barman::backup_options,
-  Integer $bandwidth_limit                                                                                     = $barman::bandwidth_limit,
+  Variant[Integer, Undef] $bandwidth_limit                                                                     = $barman::bandwidth_limit,
   Variant[String, Undef] $basebackups_directory                                                                = undef,
   Variant[Pattern['^[0-9]+$'], Boolean] $basebackup_retry_sleep                                                = $barman::basebackup_retry_sleep,
   Variant[Pattern['^[0-9]+$'], Boolean] $basebackup_retry_times                                                = $barman::basebackup_retry_times,
