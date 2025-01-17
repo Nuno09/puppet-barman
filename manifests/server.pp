@@ -193,167 +193,57 @@
 # Copyright 2012-2017 2ndQuadrant Italia
 #
 define barman::server (
-  $conninfo,
-  $ssh_command,
-  $active                        = true,
-  $ensure                        = 'present',
-  $conf_template                 = 'barman/server.conf.erb',
-  $description                   = $name,
-  $archiver                      = $barman::archiver,
-  $archiver_batch_size           = $barman::archiver_batch_size,
-  $backup_directory              = undef,
-  $backup_method                 = $barman::backup_method,
-  $backup_options                = $barman::backup_options,
-  $bandwidth_limit               = $barman::bandwidth_limit,
-  $basebackups_directory         = undef,
-  $basebackup_retry_sleep        = $barman::basebackup_retry_sleep,
-  $basebackup_retry_times        = $barman::basebackup_retry_times,
-  $check_timeout                 = $barman::check_timeout,
-  $compression                   = $barman::compression,
-  $custom_compression_filter     = $barman::custom_compression_filter,
-  $custom_decompression_filter   = $barman::custom_decompression_filter,
-  $errors_directory              = undef,
-  $immediate_checkpoint          = $barman::immediate_checkpoint,
-  $incoming_wals_directory       = undef,
-  $last_backup_maximum_age       = $barman::last_backup_maximum_age,
-  $minimum_redundancy            = $barman::minimum_redundancy,
-  $network_compression           = $barman::network_compression,
-  $parallel_jobs                 = $barman::parallel_jobs,
-  $path_prefix                   = $barman::path_prefix,
-  $post_archive_retry_script     = $barman::post_archive_retry_script,
-  $post_archive_script           = $barman::post_archive_script,
-  $post_backup_retry_script      = $barman::post_backup_retry_script,
-  $post_backup_script            = $barman::post_backup_script,
-  $pre_archive_retry_script      = $barman::pre_archive_retry_script,
-  $pre_archive_script            = $barman::pre_archive_script,
-  $pre_backup_retry_script       = $barman::pre_backup_retry_script,
-  $pre_backup_script             = $barman::pre_backup_script,
-  $recovery_options              = $barman::recovery_options,
-  $retention_policy              = $barman::retention_policy,
-  $retention_policy_mode         = $barman::retention_policy_mode,
-  $reuse_backup                  = $barman::reuse_backup,
-  $slot_name                     = $barman::slot_name,
-  $streaming_archiver            = $barman::streaming_archiver,
-  $streaming_archiver_batch_size = $barman::streaming_archiver_batch_size,
-  $streaming_archiver_name       = $barman::streaming_archiver_name,
-  $streaming_backup_name         = $barman::streaming_backup_name,
-  $streaming_conninfo            = undef,
-  $streaming_wals_directory      = undef,
-  $tablespace_bandwidth_limit    = $barman::tablespace_bandwidth_limit,
-  $wal_retention_policy          = $barman::wal_retention_policy,
-  $wals_directory                = undef,
-  $custom_lines                  = $barman::custom_lines,
+  String $conninfo,
+  String $ssh_command,
+  Boolean $active                        = true,
+  Pattern['^(present|absent)$'] $ensure                        = 'present',
+  String $conf_template                 = 'barman/server.conf.erb',
+  Pattern['^[0-9a-z_\-/]*$'] $description                   = $name,
+  Boolean $archiver                      = $barman::archiver,
+  Integer $archiver_batch_size           = $barman::archiver_batch_size,
+  String $backup_directory              = undef,
+  Pattern['^(rsync|postgres)$'] $backup_method                 = $barman::backup_method,
+  Pattern['^exclusive_backup$', '^concurrent_backup$'] $backup_options                = $barman::backup_options,
+  Integer $bandwidth_limit               = $barman::bandwidth_limit,
+  String $basebackups_directory         = undef,
+  Pattern['^[0-9]+$','^false$'] $basebackup_retry_sleep        = $barman::basebackup_retry_sleep,
+  Pattern['^[0-9]+$','^false$'] $basebackup_retry_times        = $barman::basebackup_retry_times,
+  Integer $check_timeout                 = $barman::check_timeout,
+  String $compression                   = $barman::compression,
+  String $custom_compression_filter     = $barman::custom_compression_filter,
+  String $custom_decompression_filter   = $barman::custom_decompression_filter,
+  String $errors_directory              = undef,
+  Boolean $immediate_checkpoint          = $barman::immediate_checkpoint,
+  String $incoming_wals_directory       = undef,
+  Pattern['^[1-9][0-9]* (DAY|WEEK|MONTH)S?$','^false$'] $last_backup_maximum_age       = $barman::last_backup_maximum_age,
+  Integer $minimum_redundancy            = $barman::minimum_redundancy,
+  Boolean $network_compression           = $barman::network_compression,
+  Integer $parallel_jobs                 = $barman::parallel_jobs,
+  Stdlib::Absolutepath $path_prefix                   = $barman::path_prefix,
+  Boolean $post_archive_retry_script     = $barman::post_archive_retry_script,
+  Boolean $post_archive_script           = $barman::post_archive_script,
+  Boolean $post_backup_retry_script      = $barman::post_backup_retry_script,
+  Boolean $post_backup_script            = $barman::post_backup_script,
+  Boolean $pre_archive_retry_script      = $barman::pre_archive_retry_script,
+  Boolean $pre_archive_script            = $barman::pre_archive_script,
+  Boolean $pre_backup_retry_script       = $barman::pre_backup_retry_script,
+  Boolean $pre_backup_script             = $barman::pre_backup_script,
+  Pattern['^get-wal$'] $recovery_options              = $barman::recovery_options,
+  Pattern['^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$'] $retention_policy              = $barman::retention_policy,
+  Pattern['^auto$'] $retention_policy_mode         = $barman::retention_policy_mode,
+  Pattern['^(off|link|copy)$'] $reuse_backup                  = $barman::reuse_backup,
+  String $slot_name                     = $barman::slot_name,
+  Boolean $streaming_archiver            = $barman::streaming_archiver,
+  Integer $streaming_archiver_batch_size = $barman::streaming_archiver_batch_size,
+  String $streaming_archiver_name       = $barman::streaming_archiver_name,
+  String $streaming_backup_name         = $barman::streaming_backup_name,
+  String $streaming_conninfo            = undef,
+  String $streaming_wals_directory      = undef,
+  String $tablespace_bandwidth_limit    = $barman::tablespace_bandwidth_limit,
+  Pattern['^main$'] $wal_retention_policy          = $barman::wal_retention_policy,
+  String $wals_directory                = undef,
+  String $custom_lines                  = $barman::custom_lines,
 ) {
-  # check if 'description' has been correctly configured
-  validate_legacy(String, 'validate_re', $ensure, '^(present|absent)$', "${ensure} is not a valid value (ensure = present|absent).")
-
-  # check if backup_options has correct values
-  validate_legacy(String, 'validate_re', $backup_options, ['^exclusive_backup$', '^concurrent_backup$', 'Invalid backup option please use exclusive_backup or concurrent_backup'])
-
-  if($recovery_options) {
-    # Check if recovery has correct values, if specified
-    validate_legacy(String, 'validate_re', $recovery_options, ['^get-wal$'], 'Invalid recovery option. Please use "get-wal" or undef.')
-  }
-
-  # check if 'description' has been correctly configured
-  validate_legacy(String, 'validate_re', $name, '^[0-9a-z_\-/]*$', "${name} is not a valid name. Please only use lowercase letters, numbers, slashes, underscores and hyphens.")
-
-  # check if immediate checkpoint is a boolean
-  validate_legacy(Boolean, 'validate_bool', $immediate_checkpoint)
-
-  # check to make sure basebackup_retry_times is a numerical value
-  if $basebackup_retry_times != false {
-    validate_legacy(Integer, 'validate_integer', $basebackup_retry_times, undef, 0)
-  }
-
-  # check to make sure basebackup_retry_sleep is a numerical value
-  if $basebackup_retry_sleep != false {
-    validate_legacy(Integer, 'validate_integer', $basebackup_retry_sleep, undef, 0)
-  }
-
-  # check if minimum_redundancy is a number
-  validate_legacy(Integer, 'validate_integer', $minimum_redundancy, undef, 0)
-
-  # check to make sure last_backup_maximum_age identifies (DAYS | WEEKS | MONTHS) greater then 0
-  if $last_backup_maximum_age != false {
-    validate_legacy(String, 'validate_re', $last_backup_maximum_age, ['^[1-9][0-9]* (DAY|WEEK|MONTH)S?$'])
-  }
-
-  # check to make sure retention_policy has correct value
-  validate_legacy(String, 'validate_re', $retention_policy, ['^(^$|REDUNDANCY [1-9][0-9]*|RECOVERY WINDOW OF [1-9][0-9]* (DAY|WEEK|MONTH)S?)$'])
-
-  # check to make sure retention_policy_mode is set to auto
-  validate_legacy(String, 'validate_re', $retention_policy_mode, ['^auto$'])
-
-  # check to make sure wal_retention_policy is set to main
-  validate_legacy(String, 'validate_re', $wal_retention_policy, ['^main$'])
-
-  validate_legacy(Boolean, 'validate_bool', $active)
-  validate_legacy(Boolean, 'validate_bool', $archiver)
-
-  if $archiver_batch_size != undef {
-    validate_legacy(Integer, 'validate_integer', $archiver_batch_size)
-  }
-
-  if $backup_method != undef {
-    validate_legacy(String, 'validate_re', $backup_method, '^(rsync|postgres)$')
-  }
-
-  if $bandwidth_limit != undef {
-    validate_legacy(Integer, 'validate_integer', $bandwidth_limit)
-  }
-
-  if $check_timeout != undef {
-    validate_legacy(Integer, 'validate_integer', $check_timeout)
-  }
-
-  if $custom_compression_filter != undef {
-    validate_legacy(String, 'validate_string', $custom_compression_filter)
-  }
-
-  if $custom_decompression_filter != undef {
-    validate_legacy(String, 'validate_string', $custom_decompression_filter)
-  }
-
-  if $network_compression != undef {
-    validate_legacy(Boolean, 'validate_bool', $network_compression)
-  }
-
-  if $parallel_jobs != undef {
-    validate_legacy(Integer, 'validate_integer', $parallel_jobs)
-  }
-
-  if $path_prefix != undef {
-    validate_absolute_path($path_prefix)
-  }
-
-  if $slot_name != undef {
-    validate_legacy(String, 'validate_string', $slot_name)
-  }
-
-  validate_legacy(Boolean, 'validate_bool', $streaming_archiver)
-
-  if $streaming_archiver_batch_size != undef {
-    validate_legacy(Integer, 'validate_integer', $streaming_archiver_batch_size)
-  }
-
-  if $streaming_archiver_name != undef {
-    validate_legacy(String, 'validate_string', $streaming_archiver_name)
-  }
-
-  if $streaming_backup_name != undef {
-    validate_legacy(String, 'validate_string', $streaming_backup_name)
-  }
-
-  if $tablespace_bandwidth_limit != undef {
-    validate_legacy(String, 'validate_string', $tablespace_bandwidth_limit)
-  }
-
-  # check to make sure reuse_backup has correct value
-  if $reuse_backup != false {
-    validate_legacy(String, 'validate_re', $reuse_backup, ['^(off|link|copy)$'])
-  }
-
   if $custom_lines != '' {
     notice 'The \'custom_lines\' option is deprecated. Please use $conf_template for custom configuration'
   }
